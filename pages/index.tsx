@@ -1,9 +1,10 @@
 import { Auth, useAuth } from "@arcana/auth-react";
+import { ChakraProvider } from "@chakra-ui/react";
 
 export default function Home() {
   const auth = useAuth();
   return (
-    <div>
+    <ChakraProvider>
       {auth.loading ? (
         "Loading"
       ) : auth.isLoggedIn ? (
@@ -17,6 +18,6 @@ export default function Home() {
           />
         </div>
       )}
-    </div>
+    </ChakraProvider>
   );
 }
