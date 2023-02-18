@@ -30,7 +30,7 @@ export default function hero() {
     },
   };
   const [walletConnected, setWalletConnected] = useState(false);
-  const [currentAccount,setCurrentAccount]=useState(false);
+  const [currentAccount, setCurrentAccount] = useState(false);
   return (
     <ChakraBaseProvider theme={theme}>
       <Container maxW={"7xl"}>
@@ -101,6 +101,14 @@ export default function hero() {
                 fontWeight={"normal"}
                 px={6}
                 leftIcon={<PlayIcon h={4} w={4} color={"gray.300"} />}
+                onClick={(e) => {
+                  e.preventDefault();
+                  fetch("/api/sendnotification")
+                    .then((res) => res.json())
+                    .then((res) => {
+                      console.log(res);
+                    });
+                }}
               >
                 How It Works
               </Button>
