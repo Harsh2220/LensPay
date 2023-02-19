@@ -1,3 +1,4 @@
+import ConnectWallet from "@/utils/ConnectWallet";
 import {
   Container,
   Stack,
@@ -15,10 +16,10 @@ import {
   ChakraBaseProvider,
   theme,
 } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import Lottie from "react-lottie";
 import animationData from "../pages/lotti/piggy.json";
-import ConnectWallet from "@/utils/ConnectWallet";
 
 export default function hero() {
   const defaultOptions = {
@@ -29,6 +30,7 @@ export default function hero() {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
+  const router = useRouter();
   const [walletConnected, setWalletConnected] = useState(false);
   const [currentAccount, setCurrentAccount] = useState(false);
   return (
@@ -85,12 +87,9 @@ export default function hero() {
                 colorScheme={"red"}
                 bg={"red.400"}
                 _hover={{ bg: "red.500" }}
-                onClick={() => {
-                  ConnectWallet(
-                    walletConnected,
-                    setWalletConnected,
-                    setCurrentAccount
-                  );
+                onClick={ async () => {
+                  const connected = await ConnectWallet({walletConnected, setWalletConnected, setCurrentAccount});
+                  connected?router.push('/dashboard'):''
                 }}
               >
                 Connect Wallet

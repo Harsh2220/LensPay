@@ -39,6 +39,7 @@ const ConnectWallet = async ({
             signer = provider.getSigner();
             setCurrentAccount(accounts[0]);
             setWalletConnected(true);
+            return walletConnected;
             // state.setCurrentAccount(accounts[0])
           }
         });
@@ -46,6 +47,7 @@ const ConnectWallet = async ({
       if (chaindId == 5) {
         setWalletConnected(true);
         setCurrentAccount(getAccount[0]);
+        return walletConnected;
         // state.setCurrentAccount(getAccount[0]);
       }
     }
