@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@apollo/client": "^3.7.8",
     "@arcana/auth": "^1.0.0",
     "@arcana/auth-react": "^0.0.2",
     "@chakra-ui/react": "^2.5.1",
@@ -24,6 +25,7 @@
     "eslint-config-next": "13.1.6",
     "ethers": "^5.0.4",
     "framer-motion": "^9.0.4",
+    "graphql": "^16.6.0",
     "next": "13.1.6",
     "prop-types": "^15.8.1",
     "react": "18.2.0",
