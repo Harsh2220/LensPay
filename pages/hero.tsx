@@ -128,7 +128,7 @@ export default function hero() {
               top={"-20%"}
               left={0}
               zIndex={-1}
-              color={useColorModeValue("red.50", "whiteAlpha.900")}
+              color={useColorModeValue("red.400","red.300")}
             />
             <Box
               position={"relative"}
@@ -139,26 +139,6 @@ export default function hero() {
               overflow={"hidden"}
               left={"28"}
             >
-              {/* <IconButton
-                aria-label={"Play Button"}
-                variant={"ghost"}
-                _hover={{ bg: "transparent" }}
-                icon={<PlayIcon w={12} h={12} />}
-                size={"lg"}
-                color={"white"}
-                position={"absolute"}
-                left={"50%"}
-                top={"50%"}
-                transform={"translateX(-50%) translateY(-50%)"}
-              /> */}
-              {/* <Image
-                alt={"Hero Image"}
-                fit={"contain"}
-                align={"center"}
-                w={"100%"}
-                h={"100%"}
-                src={""}
-              /> */}
               <Lottie options={defaultOptions} height={400} width={400} />
             </Box>
           </Flex>
