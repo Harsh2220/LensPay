@@ -18,8 +18,7 @@ LensPay is a decentralized crypto transfer platform that enables users to exchan
 
 ## Tech Stack
 
-**Client:** React, Redux, TailwindCSS
+**Client:** Next JS,ethers,chakraUI
 
-**Server:** Node, Express
+**Server:** Polygon, Lens
 
-Lens Protocol, Push Protocol,Polygon
