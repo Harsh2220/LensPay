@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export default gql`
-query Profiles {
-    profiles(request: { ownedBy: ["0xD020E01C0c90Ab005A01482d34B808874345FD82"], limit: 10 }) {
+query Profiles($address:EthereumAddress!) {
+    profiles(request: { ownedBy: [$address], limit: 10 }) {
       items {
         id
         name

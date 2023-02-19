@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export default gql`
-query Profiles {
-    profiles(request: { handles: ["josh.test"], limit: 1 }) {
+query Profiles($handle:Handle) {
+    profiles(request: { handles: [$handle], limit: 1 }) {
       items {
         id
         name
