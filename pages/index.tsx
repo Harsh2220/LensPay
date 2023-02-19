@@ -26,7 +26,7 @@ import Lottie from "react-lottie";
 import animationData from "./lotti/piggy.json";
 import { useAuth } from "@arcana/auth-react";
 
-export default function index() {
+export default function Home() {
   const defaultOptions = {
     loop: true,
     autoplay: true,
