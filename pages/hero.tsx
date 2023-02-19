@@ -1,3 +1,5 @@
+import { client } from "@/apollo/client";
+import fetchHandleByEthAddress from "@/apollo/queries/fetchHandleByEthAddress";
 import ConnectWallet from "@/utils/ConnectWallet";
 import {
   Container,
@@ -32,7 +34,7 @@ export default function hero() {
   };
   const router = useRouter();
   const [walletConnected, setWalletConnected] = useState(false);
-  const [currentAccount, setCurrentAccount] = useState(false);
+  const [currentAccount, setCurrentAccount] = useState('');
   return (
     <ChakraBaseProvider theme={theme}>
       <Container maxW={"7xl"}>
@@ -88,8 +90,22 @@ export default function hero() {
                 bg={"red.400"}
                 _hover={{ bg: "red.500" }}
                 onClick={ async () => {
-                  const connected = await ConnectWallet({walletConnected, setWalletConnected, setCurrentAccount});
-                  connected?router.push('/dashboard'):''
+                  const result = await ConnectWallet({walletConnected, setWalletConnected, setCurrentAccount});
+                  if(result.connected) {
+                    router.push('/dashboard');
+                    try {
+                      const data = await client.query({
+                        query: fetchHandleByEthAddress,
+                        variables: {
+                          address: result?.wallet,
+                        }
+                      })
+                      console.log(data);
+                    } catch (error) {
+                      console.log(error);
+                      
+                    }
+                  }
                 }}
               >
                 Connect Wallet

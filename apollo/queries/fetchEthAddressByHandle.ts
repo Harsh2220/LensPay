@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export default gql`
-query Profiles($handle:Handle) {
+query Profiles($handle:Handle!) {
     profiles(request: { handles: [$handle], limit: 1 }) {
       items {
         id
