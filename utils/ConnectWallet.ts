@@ -23,33 +23,38 @@ const ConnectWallet = async ({
       });
       let provider = new ethers.providers.Web3Provider(ethereum, "any");
       let signer = provider.getSigner();
+      let balance = await signer.getBalance();
+      
       let chaindId = await signer.getChainId();
       console.log(chaindId);
-      if (chaindId !== 5) {
+      if (chaindId !== 80001) {
         setWalletConnected(false);
+
         signer.getChainId().then(async (res) => {
-          if (res !== 5) {
+          if (res !== 80001) {
             const polygon = await ethereum.request({
               method: "wallet_switchEthereumChain",
-              params: [{ chainId: "0x5" }],
+              params: [{ chainId: "0x80001" }],
             });
             const accounts = await ethereum.request({
               method: "eth_requestAccounts",
             });
+            console.log(accounts);
             signer = provider.getSigner();
             setCurrentAccount(accounts[0]);
             setWalletConnected(true);
-            return {connected: true, wallet: accounts[0]};
+            return {connected: true, wallet: accounts[0], balance: balance};
             // state.setCurrentAccount(accounts[0])
           }
         });
       }
-      if (chaindId == 5) {
+      if (chaindId == 80001) {
         setWalletConnected(true);
         setCurrentAccount(getAccount[0]);
-        return {connected: true, wallet: getAccount[0]};
+        return {connected: true, wallet: getAccount[0], balance: balance};
         // state.setCurrentAccount(getAccount[0]);
       }
+
     }
   } catch (err) {
     console.log(err);

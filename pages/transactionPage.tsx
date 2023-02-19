@@ -14,13 +14,13 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import React, { useEffect } from "react";
-import { NetworkType, useTransactionStore } from "../store/store";
+import { NetworkType, useTransactionStore} from "../store/store";
 import { CopyIcon } from "@chakra-ui/icons";
 import TransactionForm from "@/components/TransactionForm";
 import Dashboard from "@/components/Dashboard";
 import Preview from "@/components/Preview";
 
-export default function Transaction({ network }: { network: NetworkType }) {
+export default function Transaction({ network = 'ETH' }: { network: NetworkType }) {
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
@@ -29,6 +29,7 @@ export default function Transaction({ network }: { network: NetworkType }) {
     resetTransaction,
     handleNetworkType,
     networkType,
+    userAddress
   } = useTransactionStore();
 
   useEffect(() => {
@@ -37,7 +38,7 @@ export default function Transaction({ network }: { network: NetworkType }) {
 
   return (
     <>
-      <Flex direction="column" gap={"4"}>
+      <Flex direction="column" gap={"4" } alignItems={'center'} justifyContent={'center'} h={'100vh'}>
         <Box>
           <Center>
             <Text
@@ -46,7 +47,7 @@ export default function Transaction({ network }: { network: NetworkType }) {
               color="#F2FFEA"
               mb="2"
             >
-              {`Sample receiver public address`}
+              {`Your wallet address`}
             </Text>
           </Center>
           <Center>
@@ -66,14 +67,14 @@ export default function Transaction({ network }: { network: NetworkType }) {
                 });
               }}
             >
-              {networkMetadata.sampleAddress} <CopyIcon />
+              {userAddress} <CopyIcon />
             </Code>
           </Center>
         </Box>
         <Center>
           <Box>
-            <Button variant={"primarybtn"} onClick={onOpen}>
-              {`Let's transfer your first ${networkType}! 🪙`}
+            <Button colorScheme='whatsapp' onClick={onOpen} py={8} fontSize={'md'}>
+              {`Transfer to any Lens Handle`}
             </Button>
           </Box>
         </Center>
@@ -82,7 +83,7 @@ export default function Transaction({ network }: { network: NetworkType }) {
       <Modal
         isOpen={isOpen}
         onClose={() => {
-          resetTransaction();
+          // resetTransaction();
           onClose();
         }}
         isCentered

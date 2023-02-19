@@ -1,3 +1,5 @@
+import { client } from "@/apollo/client";
+import fetchEthAddressByHandle from "@/apollo/queries/fetchEthAddressByHandle";
 import {
   Box,
   HStack,
@@ -9,6 +11,7 @@ import {
   Button,
   Flex,
   FormHelperText,
+  useToast,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { MdKeyboardBackspace } from "react-icons/md";
@@ -58,14 +61,15 @@ export default function TransactionForm() {
       setValidateAmount(false);
     }
   };
+  const toast = useToast();
 
-  useEffect(() => {
-    validateWalletAddress();
-  }, [userAddress]);
+  // useEffect(() => {
+  //   validateWalletAddress();
+  // }, [userAddress]);
 
-  useEffect(() => {
-    validateEnteredAmount();
-  }, [amount]);
+  // useEffect(() => {
+  //   validateEnteredAmount();
+  // }, [amount]);
 
   return (
     <>
@@ -95,24 +99,46 @@ export default function TransactionForm() {
               color="#B5E8CC"
               fontFamily={"Poppins"}
             >
-              Recipient address
+              Recipient lens handle
             </FormLabel>
             <Input
               type="text"
               mt={4}
               value={userAddress}
               onChange={(e) => {
-                handleUserAddress(e.target.value.trim());
+                handleUserAddress(e.target.value);
               }}
+              onBlur={
+                async ()=>{
+                 try {
+                  const data = await client.query({
+                    query: fetchEthAddressByHandle,
+                    variables: {
+                      handle: userAddress,
+                    }
+                  });
+                  if (data?.data?.profiles?.items.length == 0){
+                    toast({
+                      title: `Enter a valid lens handle`,
+                      status: "error",
+                      isClosable: true,
+                      position: "top",
+                    });
+                  }
+                  console.log(data);
+                 } catch (error) {
+                  console.log(error);
+                  toast({
+                    title: `Enter a valid lens handle`,
+                    status: "error",
+                    isClosable: true,
+                    position: "top",
+                  });
+                 }
+                }
+              }
             />
           </Box>
-          {!validateAddress && userAddress.length > 0 ? (
-            <Text fontSize={"xs"} mt={2} color="red.300">
-              Please enter valid address
-            </Text>
-          ) : (
-            <></>
-          )}
           <Box mt={6}>
             <FormLabel
               fontWeight={"semibold"}
@@ -153,13 +179,6 @@ export default function TransactionForm() {
               </HStack>
             </Flex>
           </Box>
-          {!validateAmount && amount > 0 ? (
-            <Text fontSize={"xs"} mt={2} color="red.300">
-              Insufficient balance
-            </Text>
-          ) : (
-            <></>
-          )}
           {/* <Text
             fontWeight={"medium"}
             color="gray.600"
@@ -169,49 +188,7 @@ export default function TransactionForm() {
             ~$232.90
           </Text> */}
 
-          <Box mt="6">
-            <Box mt={4}>
-              <FormLabel
-                fontWeight={"semibold"}
-                color="#B5E8CC"
-                fontFamily={"Poppins"}
-              >
-                Gas Fee
-              </FormLabel>
-              <Input
-                type="text"
-                mt={2}
-                disabled
-                value={isNaN(gasFee) ? "" : gasFee}
-              />
-            </Box>
-
-            <Box mt={4}>
-              <FormLabel
-                fontWeight={"semibold"}
-                color="#B5E8CC"
-                fontFamily={"Poppins"}
-              >
-                Total amount after Gas Fee
-              </FormLabel>
-              <Input
-                type="text"
-                mt={2}
-                disabled
-                value={isNaN(totalAmount) ? "" : totalAmount}
-                // isInvalid={totalAmount > balance}
-              />
-              {totalAmount > balance ? (
-                <FormHelperText>
-                  <Text fontSize={"xs"} mt={2} color="red.300">
-                    Insufficient funds for gas
-                  </Text>
-                </FormHelperText>
-              ) : (
-                <></>
-              )}
-            </Box>
-          </Box>
+        
         </FormControl>
       </Stack>
       <Stack px={4} pb={14} h="full" justifyContent="flex-end">

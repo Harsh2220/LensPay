@@ -18,7 +18,8 @@ import {
   ChakraBaseProvider,
   theme,
 } from "@chakra-ui/react";
-import { useRouter } from "next/router";
+import {useTransactionStore} from "../store/store";
+import { Router, useRouter } from "next/router";
 import { useState } from "react";
 import Lottie from "react-lottie";
 import animationData from "../pages/lotti/piggy.json";
@@ -32,6 +33,7 @@ export default function hero() {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
+  const {handleUserAddress,handleBalance} = useTransactionStore();
   const router = useRouter();
   const [walletConnected, setWalletConnected] = useState(false);
   const [currentAccount, setCurrentAccount] = useState('');
@@ -91,8 +93,14 @@ export default function hero() {
                 _hover={{ bg: "red.500" }}
                 onClick={ async () => {
                   const result = await ConnectWallet({walletConnected, setWalletConnected, setCurrentAccount});
+                  handleUserAddress(result?.wallet);
+                  handleBalance(0, result?.balance);
                   if(result.connected) {
-                    router.push('/dashboard');
+                    router.push(
+                      { pathname: "/transactionPage", query: { network: 'ETH' } },
+                      "/transactionPage"
+                    );
+                  
                     try {
                       const data = await client.query({
                         query: fetchHandleByEthAddress,
@@ -103,7 +111,6 @@ export default function hero() {
                       console.log(data);
                     } catch (error) {
                       console.log(error);
-                      
                     }
                   }
                 }}

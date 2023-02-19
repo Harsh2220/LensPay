@@ -12,6 +12,7 @@ export default function Dashboard({ onClose }: { onClose: () => void }) {
     balance,
     networkType,
     transaction,
+    userAddress,
     resetTransaction,
   } = useTransactionStore();
   return (
@@ -19,7 +20,7 @@ export default function Dashboard({ onClose }: { onClose: () => void }) {
       <Stack
         alignItems={"center"}
         w="full"
-        background={networkMetadata.bgColor}
+        background={'#90edb3'}
         boxShadow="0px 4px 24px rgba(172, 234, 254, 0.4)"
         pb={5}
         borderRadius="2xl"
@@ -39,18 +40,13 @@ export default function Dashboard({ onClose }: { onClose: () => void }) {
             </Text>
             <Box w={1} h={1} bg="#858585" mx={2}></Box>
             <Text fontWeight="semibold" fontFamily={"Poppins"} color="black">
-              {networkMetadata.sampleAddress.slice(0, 5)}...
-              {networkMetadata.sampleAddress.slice(
-                networkMetadata.sampleAddress.length - 5,
-                networkMetadata.sampleAddress.length
-              )}
+              {userAddress.slice(1,6)}...{userAddress.slice(userAddress.length-2,userAddress.length)}
             </Text>
           </HStack>
           <Box
             cursor={"pointer"}
             onClick={() => {
               onClose();
-              resetTransaction();
             }}
           >
             <IoCloseOutline fontSize={"24px"} color="black" />
@@ -65,7 +61,7 @@ export default function Dashboard({ onClose }: { onClose: () => void }) {
               fontSize={"36px"}
               lineHeight={"42px"}
             >
-              {balance.toFixed(2)} {networkType}
+              {balance.toString().slice(1,3)} {networkType}
             </Text>
             {/* <Box mt={2} px={2} py={1} bg="white" rounded={"lg"}>
               ☝️
