@@ -61,7 +61,7 @@ export default function Dashboard({ onClose }: { onClose: () => void }) {
               fontSize={"36px"}
               lineHeight={"42px"}
             >
-              {balance.toString().slice(1,3)} {networkType}
+              {balance.toString().slice(0,4)} {networkType}
             </Text>
             {/* <Box mt={2} px={2} py={1} bg="white" rounded={"lg"}>
               ☝️
@@ -91,7 +91,7 @@ export default function Dashboard({ onClose }: { onClose: () => void }) {
           </Text>
         </Stack>
       </Stack>
-      <Text px={4} pt={6} fontWeight={"semibold"} mb={3}>
+      {/* <Text px={4} pt={6} fontWeight={"semibold"} mb={3}>
         Transactions
       </Text>
       <Box px={4} overflowY="auto">
@@ -106,7 +106,7 @@ export default function Dashboard({ onClose }: { onClose: () => void }) {
             </Text>
           </Center>
         )}
-      </Box>
+      </Box> */}
     </>
   );
 }

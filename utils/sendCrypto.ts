@@ -17,12 +17,13 @@ type SendCryptoProps = {
   ammount: string;
 };
 
-const sendCrypto = async ({ammount,toAddress,toLensHandle,message}:SendCryptoProps) => {
+const sendCrypto = async (toAddress,toLensHandle,message,ammount) => {
   try {
     const { ethereum } = window;
     const provider = new ethers.providers.Web3Provider(ethereum);
     const signer = provider.getSigner();
     const contract = new Contract(CONTRACT_ADDRESS, ABI, signer);
+    console.log(typeof(ammount));
     const txn = await contract.sendToHandle(toAddress, message, toLensHandle, {
       value: ethers.utils.parseEther(ammount),
     });
@@ -30,7 +31,7 @@ const sendCrypto = async ({ammount,toAddress,toLensHandle,message}:SendCryptoPro
     return txn;
   } catch (error) {
     console.log(error);
-    throw new Error("Something went wrong");
+    throw new Error("Something went wrong", error);
     
   }
 };

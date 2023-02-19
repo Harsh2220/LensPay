@@ -102,7 +102,6 @@ export default function Transaction({ network }: { network: NetworkType }) {
           <ModalBody p={0} borderWidth="1px" borderRadius="2xl">
             <Stack
               w={["100vw", "375px"]}
-              h={"640px"}
               bg={["#1A1A1A", "#0C0C0C"]}
               borderRadius={"2xl"}
             >

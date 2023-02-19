@@ -167,13 +167,13 @@ export default function TransactionForm() {
                 border={0}
                 outline="none"
                 focusBorderColor={"#0C0C0C"}
-                value={amount}
+                value={amt}
                 onChange={(e) => {
                   setamt(e.target.value);
                 }}
               />
               <HStack alignItems={"center"} mr={4}>
-                <Text>SOL</Text>
+                <Text>ETH</Text>
                 <Button
                   size="xs"
                   onClick={() =>
@@ -209,7 +209,7 @@ export default function TransactionForm() {
             validateAmount === false ||
             totalAmount > balance
           }
-            onClick={async()=>{sendCrypto(address,userAddress,"",amt)}}
+          onClick={async()=>{sendCrypto(address,userAddress,"sahil",amt)}}
         >
           Send
         </Button>

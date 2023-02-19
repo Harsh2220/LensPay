@@ -24,6 +24,7 @@ const ConnectWallet = async ({
       let provider = new ethers.providers.Web3Provider(ethereum, "any");
       let signer = provider.getSigner();
       let balance = await signer.getBalance();
+      const formatBalance = ethers.utils.formatEther(balance);
       
       let chaindId = await signer.getChainId();
       console.log(chaindId);
@@ -47,7 +48,7 @@ const ConnectWallet = async ({
             signer = provider.getSigner();
             setCurrentAccount(accounts[0]);
             setWalletConnected(true);
-            return {connected: true, wallet: accounts[0], balance: balance};
+            return {connected: true, wallet: accounts[0], balance: formatBalance};
             // state.setCurrentAccount(accounts[0])
           }
         });
@@ -55,10 +56,10 @@ const ConnectWallet = async ({
       if (chaindId == 80001) {
         setWalletConnected(true);
         setCurrentAccount(getAccount[0]);
-        return {connected: true, wallet: getAccount[0], balance: balance};
+        return {connected: true, wallet: getAccount[0], balance: formatBalance};
         // state.setCurrentAccount(getAccount[0]);
       }
-      return {connected: false, wallet: getAccount[0], balance: balance};
+      return {connected: false, wallet: getAccount[0], balance: formatBalance};
     }
   } catch (err) {
     console.log(err);
