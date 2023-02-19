@@ -32,6 +32,10 @@ const ConnectWallet = async ({
 
         signer.getChainId().then(async (res) => {
           if (res !== 80001) {
+            // const different = await ethereum.request({
+            //   method: "wallet_addEthereumChain",
+            //   params: [{ chainId: "0x80001" }],
+            // });
             const polygon = await ethereum.request({
               method: "wallet_switchEthereumChain",
               params: [{ chainId: "0x80001" }],
@@ -54,7 +58,7 @@ const ConnectWallet = async ({
         return {connected: true, wallet: getAccount[0], balance: balance};
         // state.setCurrentAccount(getAccount[0]);
       }
-
+      return {connected: false, wallet: getAccount[0], balance: balance};
     }
   } catch (err) {
     console.log(err);

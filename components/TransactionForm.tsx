@@ -1,5 +1,6 @@
 import { client } from "@/apollo/client";
 import fetchEthAddressByHandle from "@/apollo/queries/fetchEthAddressByHandle";
+import sendCrypto from "@/utils/sendCrypto";
 import {
   Box,
   HStack,
@@ -31,7 +32,8 @@ export default function TransactionForm() {
 
   const [validateAddress, setValidateAddress] = useState<boolean>(false);
   const [validateAmount, setValidateAmount] = useState<boolean>(false);
-
+  const [address, setaddress] = useState("")
+  const [amt, setamt] = useState("0")
   const gasFee = (amount * 0.009) / 100;
   const totalAmount = amount + gasFee;
 
@@ -85,10 +87,10 @@ export default function TransactionForm() {
         <Box mr={2} cursor="pointer" onClick={() => handleScreen(0)}>
           <MdKeyboardBackspace fontSize={"24px"} />
         </Box>
-        <HStack alignItems={"center"}>
-          <Text fontWeight="semibold" fontFamily={"Poppins"}>
+        <HStack alignItems={"center"} >
+          <Button fontWeight="semibold" fontFamily={"Poppins"} >
             Send {networkType}
-          </Text>
+          </Button>
         </HStack>
       </HStack>
       <Stack py={6} px={7}>
@@ -109,6 +111,7 @@ export default function TransactionForm() {
                 handleUserAddress(e.target.value);
               }}
               onBlur={
+                
                 async ()=>{
                  try {
                   const data = await client.query({
@@ -117,6 +120,9 @@ export default function TransactionForm() {
                       handle: userAddress,
                     }
                   });
+                  if (data?.data?.profiles?.items.length !== 0){
+                    setaddress(data.data?.profiles?.items[0].ownedBy)
+                  }
                   if (data?.data?.profiles?.items.length == 0){
                     toast({
                       title: `Enter a valid lens handle`,
@@ -163,7 +169,7 @@ export default function TransactionForm() {
                 focusBorderColor={"#0C0C0C"}
                 value={amount}
                 onChange={(e) => {
-                  handleAmount(parseFloat(e.target.value));
+                  setamt(e.target.value);
                 }}
               />
               <HStack alignItems={"center"} mr={4}>
@@ -203,11 +209,9 @@ export default function TransactionForm() {
             validateAmount === false ||
             totalAmount > balance
           }
-          onClick={() => {
-            handleScreen(2);
-          }}
+            onClick={async()=>{sendCrypto(address,userAddress,"",amt)}}
         >
-          Preview
+          Send
         </Button>
       </Stack>
     </>

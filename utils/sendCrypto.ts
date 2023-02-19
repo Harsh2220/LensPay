@@ -17,8 +17,7 @@ type SendCryptoProps = {
   ammount: string;
 };
 
-const sendCrypto = async (props: SendCryptoProps) => {
-  const { toAddress, toLensHandle, message, ammount } = props;
+const sendCrypto = async ({ammount,toAddress,toLensHandle,message}:SendCryptoProps) => {
   try {
     const { ethereum } = window;
     const provider = new ethers.providers.Web3Provider(ethereum);
@@ -30,7 +29,9 @@ const sendCrypto = async (props: SendCryptoProps) => {
     await txn.wait();
     return txn;
   } catch (error) {
+    console.log(error);
     throw new Error("Something went wrong");
+    
   }
 };
 
