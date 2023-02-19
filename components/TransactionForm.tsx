@@ -32,8 +32,8 @@ export default function TransactionForm() {
 
   const [validateAddress, setValidateAddress] = useState<boolean>(false);
   const [validateAmount, setValidateAmount] = useState<boolean>(false);
-  const [address, setaddress] = useState("")
-  const [amt, setamt] = useState("0")
+  const [address, setaddress] = useState("");
+  const [amt, setamt] = useState("0");
   const gasFee = (amount * 0.009) / 100;
   const totalAmount = amount + gasFee;
 
@@ -66,8 +66,8 @@ export default function TransactionForm() {
   const toast = useToast();
 
   // useEffect(() => {
-  //   validateWalletAddress();
-  // }, [userAddress]);
+  //   handleUserAddress("");
+  // },);
 
   // useEffect(() => {
   //   validateEnteredAmount();
@@ -87,8 +87,8 @@ export default function TransactionForm() {
         <Box mr={2} cursor="pointer" onClick={() => handleScreen(0)}>
           <MdKeyboardBackspace fontSize={"24px"} />
         </Box>
-        <HStack alignItems={"center"} >
-          <Button fontWeight="semibold" fontFamily={"Poppins"} >
+        <HStack alignItems={"center"}>
+          <Button fontWeight="semibold" fontFamily={"Poppins"}>
             Send {networkType}
           </Button>
         </HStack>
@@ -106,24 +106,23 @@ export default function TransactionForm() {
             <Input
               type="text"
               mt={4}
-              value={userAddress}
+              placeholder={"Enter lens handle"}
+              // value={userAddress}
               onChange={(e) => {
                 handleUserAddress(e.target.value);
               }}
-              onBlur={
-                
-                async ()=>{
-                 try {
+              onBlur={async () => {
+                try {
                   const data = await client.query({
                     query: fetchEthAddressByHandle,
                     variables: {
                       handle: userAddress,
-                    }
+                    },
                   });
-                  if (data?.data?.profiles?.items.length !== 0){
-                    setaddress(data.data?.profiles?.items[0].ownedBy)
+                  if (data?.data?.profiles?.items.length !== 0) {
+                    setaddress(data.data?.profiles?.items[0].ownedBy);
                   }
-                  if (data?.data?.profiles?.items.length == 0){
+                  if (data?.data?.profiles?.items.length == 0) {
                     toast({
                       title: `Enter a valid lens handle`,
                       status: "error",
@@ -132,7 +131,7 @@ export default function TransactionForm() {
                     });
                   }
                   console.log(data);
-                 } catch (error) {
+                } catch (error) {
                   console.log(error);
                   toast({
                     title: `Enter a valid lens handle`,
@@ -140,9 +139,8 @@ export default function TransactionForm() {
                     isClosable: true,
                     position: "top",
                   });
-                 }
                 }
-              }
+              }}
             />
           </Box>
           <Box mt={6}>
@@ -193,8 +191,6 @@ export default function TransactionForm() {
           >
             ~$232.90
           </Text> */}
-
-        
         </FormControl>
       </Stack>
       <Stack px={4} pb={14} h="full" justifyContent="flex-end">
@@ -209,7 +205,16 @@ export default function TransactionForm() {
             validateAmount === false ||
             totalAmount > balance
           }
-          onClick={async()=>{sendCrypto(address,userAddress,"sahil",amt)}}
+          onClick={async () => {
+            await sendCrypto(address, userAddress, "sahil", amt);
+            toast({
+              title: `Transaction Successful`,
+              status: "success",
+              isClosable: true,
+              position: "top",
+            });
+            
+          }}
         >
           Send
         </Button>
